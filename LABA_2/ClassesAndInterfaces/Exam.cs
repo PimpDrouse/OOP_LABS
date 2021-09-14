@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
-namespace LABA_1
+namespace LABA_2.ClassesAndInterfaces
 {
-    internal class Exam
+    internal class Exam : IDateAndCopy
     {
         //
         
@@ -11,6 +11,7 @@ namespace LABA_1
         internal string Subjects { get; set; }
         internal int Mark { get; set; }
         internal DateTime DateOfPass { get; set; }
+        public DateTime Date { get; set; }
         //
 
 
@@ -25,7 +26,7 @@ namespace LABA_1
         {
             Subjects = "None";
             Mark = -1;
-            DateOfPass = new DateTime(0,0,0);
+            DateOfPass = new DateTime(1,1,1);
         }
         //
 
@@ -36,6 +37,13 @@ namespace LABA_1
             string informationAboutExam = $"Предмет: {Subjects} | Оценка: {Mark} | Дата сдачи: {DateOfPass.ToShortDateString()}";
             Console.WriteLine(informationAboutExam);
             return informationAboutExam;
+        }
+
+        public object DeepCopy()
+        {
+            Exam examCopy = new Exam(Subjects, Mark, DateOfPass.Year, DateOfPass.Month, DateOfPass.Day);
+            examCopy.Date = DateTime.Today;
+            return examCopy;
         }
     }
 }

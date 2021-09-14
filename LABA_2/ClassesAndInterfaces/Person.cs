@@ -1,20 +1,21 @@
-﻿using System;
+using System;
 
-namespace LABA_1
+namespace LABA_2.ClassesAndInterfaces
 {
-    internal class Person
+    internal class Person : IDateAndCopy
     {
         //Поля
         
         
         
-        private string _firstName;
-        private string _lastName;
-        private DateTime _dateOfBirth;
+        protected string _firstName;
+        protected string _lastName;
+        protected DateTime _dateOfBirth;
+        public DateTime Date { get; set; }
         //Свойства и индексаторы
 
 
-
+        
         internal string FirstName
         {
             get { return _firstName; }
@@ -59,9 +60,37 @@ namespace LABA_1
             DateOfBirth = new DateTime(2021, 1, 1);
         }
         //Методы
+
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Person)
+            {
+                Person pers = obj as Person;
+                if (pers == this) return true;
+                else return false;
+            }
+            else return false;
+        }
         
         
+
+        public static bool operator ==(Person p1, Person p2)
+        {
+            if (p1.FirstName == p2.FirstName &&
+                p1.LastName == p2.LastName &&
+                p1.DateOfBirth == p2.DateOfBirth) return true;
+            else return false;
+        }
         
+        public static bool operator !=(Person p1, Person p2)
+        {
+            if (p1.FirstName == p2.FirstName &&
+                p1.LastName == p2.LastName &&
+                p1.DateOfBirth == p2.DateOfBirth) return false;
+            else return true;
+        }
+
         public override string ToString()
         {
             string informationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName} | Дата рождения: {DateOfBirth.ToShortDateString()}";
@@ -74,6 +103,13 @@ namespace LABA_1
             string shortInformationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName}";
             //Console.WriteLine(shortInformationAboutClass);
             return shortInformationAboutClass;
+        }
+
+        public object DeepCopy()
+        {
+            Person persCopy = new Person(FirstName, LastName, DateOfBirth.Year, DateOfBirth.Month, DateOfBirth.Day);
+            persCopy.Date = DateTime.Today;
+            return persCopy;
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System;
-using System.Net.Sockets;
+using System;
+using System.Collections;
 
-namespace LABA_1
+namespace LABA_2.ClassesAndInterfaces
 {
-    internal class Student
+    internal class Student : IDateAndCopy
+
     {
         //
 
@@ -12,7 +13,9 @@ namespace LABA_1
         private Person _personData;
         private Education _education;
         private int _group;
-        private Exam[] _exams;
+        private ArrayList _tests;
+        private ArrayList _exams;
+        public DateTime Date { get; set; }
         //
 
 
@@ -35,7 +38,7 @@ namespace LABA_1
             set { _group = value; }
         }
 
-        internal Exam[] Exams
+        internal ArrayList Exams
         {
             get { return _exams; }
             set { _exams = value; }
@@ -45,13 +48,14 @@ namespace LABA_1
         {
             get
             {
+                
                 double avg = 0;
-                foreach (var Exam in Exams)
+                foreach (Exam exam in Exams)
                 {
-                    avg += Exam.Mark;
+                    avg += exam.Mark;
                 }
 
-                return avg / Exams.Length;
+                return avg / Exams.Count;
             }
         }
 
@@ -86,19 +90,11 @@ namespace LABA_1
 
         public void AddExam(Exam[] addedExams)
         {
-            Exam[] tempExams = new Exam[Exams.Length + addedExams.Length];
-
-            for (int i = 0; i < Exams.Length; i++)
-            {
-                tempExams[i] = Exams[i];
-            }
-
+          
             for (int i = 0; i < addedExams.Length; i++)
             {
-                tempExams[Exams.Length + i] = addedExams[i];
+                Exams.Add(addedExams[i]);
             }
-            
-            Exams = tempExams;
         }
         
         public override string ToString()
@@ -106,7 +102,7 @@ namespace LABA_1
             string informationAboutStudent = $"{PersonData.ToString()} | Образование: {Education.ToString()} | Группа: {Group} | Средняя оценка: {Avg}";
             Console.WriteLine(informationAboutStudent);
             Console.WriteLine("Список экзаменов: ");
-            foreach (var exam in Exams)
+            foreach (Exam exam in Exams)
             {
                 exam.ToString();
             }
@@ -121,6 +117,13 @@ namespace LABA_1
             
             Console.WriteLine(shortInformationAboutStudent+"\n");
             return shortInformationAboutStudent;
+        }
+        
+        public object DeepCopy()
+        {
+            Student studCopy = new Student(PersonData, Education, Group);
+            studCopy.Date = DateTime.Today;
+            return studCopy;
         }
     }
 }

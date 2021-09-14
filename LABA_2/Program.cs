@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using LABA_2.ClassesAndInterfaces;
 
 namespace LABA_2
 {
@@ -6,7 +8,7 @@ namespace LABA_2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }

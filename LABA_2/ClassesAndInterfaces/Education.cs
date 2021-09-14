@@ -1,6 +1,6 @@
-﻿namespace LABA_1
+namespace LABA_2.ClassesAndInterfaces
 {
-    internal enum Education
+    public enum Education
     {
         None,
         Specialist,
