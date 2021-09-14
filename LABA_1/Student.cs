@@ -6,10 +6,9 @@ namespace LABA_1
     public class Student
     {
         //
-        
-        
-        
-        
+
+
+
         private Person _personData;
         private Education _education;
         private int _group;
@@ -38,8 +37,31 @@ namespace LABA_1
 
         internal Exam[] Exams
         {
-            get { return Exams; }
-            set { Exams = value; }
+            get { return _exams; }
+            set { _exams = value; }
+        }
+
+        internal double Avg
+        {
+            get
+            {
+                double avg = 0;
+                foreach (var Exam in Exams)
+                {
+                    avg += Exam.Mark;
+                }
+
+                return avg / Exams.Length;
+            }
+        }
+
+        internal bool this[Education ed]
+        {
+            get
+            {
+                if (ed == Education) return true;
+                else return false;
+            }
         }
         //
 
@@ -56,7 +78,7 @@ namespace LABA_1
             PersonData = new Person();
             Education = Education.None;
             Group = -1;
-            Exams = new Exam[1]{new Exam()};
+            //Exams = new Exam[1]{new Exam()};
         }
         //
 
@@ -73,7 +95,7 @@ namespace LABA_1
 
             for (int i = 0; i < addedExams.Length; i++)
             {
-                Exams[Exams.Length + i] = addedExams[i];
+                tempExams[Exams.Length + i] = addedExams[i];
             }
             
             Exams = tempExams;
@@ -81,15 +103,15 @@ namespace LABA_1
         
         public override string ToString()
         {
-            string informationAboutStudent = $"{PersonData.ToString()} | Образование: {Education.ToString()} | Группа: {Group}";
-            
+            string informationAboutStudent = $"{PersonData.ToString()} | Образование: {Education.ToString()} | Группа: {Group} | Средняя оценка: {Avg}";
+            Console.WriteLine(informationAboutStudent);
             Console.WriteLine("Список экзаменов: ");
             foreach (var exam in Exams)
             {
                 exam.ToString();
             }
             
-            Console.WriteLine(informationAboutStudent);
+            Console.WriteLine();
             return informationAboutStudent;
         }
 
@@ -97,7 +119,7 @@ namespace LABA_1
         {
             string shortInformationAboutStudent = $"{PersonData.ToString()} | Образование: {Education.ToString()} | Группа: {Group}";
             
-            Console.WriteLine(shortInformationAboutStudent);
+            Console.WriteLine(shortInformationAboutStudent+"\n");
             return shortInformationAboutStudent;
         }
     }

@@ -65,14 +65,14 @@ namespace LABA_1
         public override string ToString()
         {
             string informationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName} | Дата рождения: {DateOfBirth.ToShortDateString()}";
-            Console.WriteLine(informationAboutClass);
+            //Console.WriteLine(informationAboutClass);
             return informationAboutClass;
         }
 
         public virtual string ToShortString()
         {
             string shortInformationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName}";
-            Console.WriteLine(shortInformationAboutClass);
+            //Console.WriteLine(shortInformationAboutClass);
             return shortInformationAboutClass;
         }
     }
