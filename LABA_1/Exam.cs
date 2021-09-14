@@ -14,19 +14,14 @@ namespace LABA_1
         //
 
 
-
+        internal Exam() : this("None", -1, 0,0,0) { }
         internal Exam(string subjects, int mark, int yearOfPass, int monthOfPass, int dayOfPass)
         {
             Subjects = subjects;
             Mark = mark;
             DateOfPass = new DateTime(yearOfPass, monthOfPass, dayOfPass);
         }
-        internal Exam()
-        {
-            Subjects = "None";
-            Mark = -1;
-            DateOfPass = new DateTime(0,0,0);
-        }
+        
         //
 
 
@@ -34,7 +29,7 @@ namespace LABA_1
         public override string ToString()
         {
             string informationAboutExam = $"Предмет: {Subjects} | Оценка: {Mark} | Дата сдачи: {DateOfPass.ToShortDateString()}";
-            Console.WriteLine(informationAboutExam);
+            //Console.WriteLine(informationAboutExam);
             return informationAboutExam;
         }
     }

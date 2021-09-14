@@ -35,7 +35,7 @@ namespace LABA_1
 
         internal int YearOfBirth
         {
-            get { return _dateOfBirth.Year; }
+            get =>  _dateOfBirth.Year;
             set
             {
                 _dateOfBirth = _dateOfBirth.AddYears(-_dateOfBirth.Year + 1);
@@ -69,11 +69,11 @@ namespace LABA_1
             return informationAboutClass;
         }
 
-        public virtual string ToShortString()
-        {
-            string shortInformationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName}";
-            //Console.WriteLine(shortInformationAboutClass);
-            return shortInformationAboutClass;
-        }
+        public virtual string ToShortString() => $"Имя: {FirstName} | Фамилия: {LastName}";
+        // {
+        //     string shortInformationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName}";
+        //     //Console.WriteLine(shortInformationAboutClass);
+        //     return shortInformationAboutClass;
+        // }
     }
 }
