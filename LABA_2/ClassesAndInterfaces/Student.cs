@@ -1,9 +1,27 @@
+/*
+    *TODO Закротое поле типа ArrayList хранящее Test
+    *TODO Закротое поле типа ArrayList хранящее Exam
+    *TODO Класс измененный под Person
+    *TODO Конструктор с параметрами и без
+    *TODO Свойство типа Person c get и set
+    *TODO Свойство типа double Avg с get
+    *TODO Свойство типа ArrayList с get и set
+    *TODO Метод void AddExam для добавления элементов
+    *TODO В свойстве Group оперделить set выкидывающий исключение при введенном значении от 100 до 500
+    *TODO Определить итератор для перебора всех элементов из списка зачетов и экзаменов
+    *TODO Определить итератор для последовательного перебора экзаменов с оценкой больше заданного значения
+    *TODO Переопределить Equals
+    *TODO Определить операции == и !=
+    *TODO Переопределить GetHashCode
+    *TODO Реализация интерфейса IDateCopy
+    *TODO Определить virtual object DeepCopy
+*/
 using System;
 using System.Collections;
 
 namespace LABA_2.ClassesAndInterfaces
 {
-    internal class Student : IDateAndCopy
+    internal class Student : Person,IDateAndCopy
 
     {
         //
