@@ -9,11 +9,11 @@ namespace LABA_2
     {
         static void Main(string[] args)
         {
-            Person pers1 = new Person();
+            Student pers1 = new Student();
             Console.WriteLine(pers1.GetHashCode());
             Console.WriteLine(pers1.ToShortString());
             Thread.Sleep(5000);
-            Person pers2 = (Person)pers1.DeepCopy();
+            Student pers2 = (Student)pers1.DeepCopy();
             Console.WriteLine(pers2.GetHashCode());
             Console.WriteLine(pers2.ToShortString());
             if(pers1.Equals(pers2))

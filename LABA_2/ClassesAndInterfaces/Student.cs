@@ -1,20 +1,20 @@
 /*
-    *TODO Закротое поле типа ArrayList хранящее Test
-    *TODO Закротое поле типа ArrayList хранящее Exam
-    *TODO Класс измененный под Person
-    *TODO Конструктор с параметрами и без
-    *TODO Свойство типа Person c get и set
-    *TODO Свойство типа double Avg с get
-    *TODO Свойство типа ArrayList с get и set
-    *TODO Метод void AddExam для добавления элементов
-    *TODO В свойстве Group оперделить set выкидывающий исключение при введенном значении от 100 до 500
+    *Закротое поле типа ArrayList хранящее Test
+    *Закротое поле типа ArrayList хранящее Exam
+    *Класс измененный под Person
+    *Конструктор с параметрами и без
+    *Свойство типа Person c get и set
+    *Свойство типа double Avg с get
+    *Свойство типа ArrayList с get и set
+    *Метод void AddExam для добавления элементов
+    *В свойстве Group оперделить set выкидывающий исключение при введенном значении от 100 до 500
     *TODO Определить итератор для перебора всех элементов из списка зачетов и экзаменов
     *TODO Определить итератор для последовательного перебора экзаменов с оценкой больше заданного значения
-    *TODO Переопределить Equals
-    *TODO Определить операции == и !=
-    *TODO Переопределить GetHashCode
-    *TODO Реализация интерфейса IDateCopy
-    *TODO Определить virtual object DeepCopy
+    *Переопределить Equals
+    *Определить операции == и !=
+    *Переопределить GetHashCode
+    *Реализация интерфейса IDateCopy
+    *Определить override object DeepCopy
 */
 using System;
 using System.Collections;
@@ -24,49 +24,53 @@ namespace LABA_2.ClassesAndInterfaces
     internal class Student : Person,IDateAndCopy
 
     {
-        //
-
-
-
         private Person _personData;
         private Education _education;
         private int _group;
         private ArrayList _tests;
         private ArrayList _exams;
-        public DateTime Date { get; set; }
-        //
 
-
+        public DateTime DateOfCreation { get; set; }
 
         internal Person PersonData
         {
-            get { return _personData; }
-            set { _personData = value; }
+            get => _personData;
+            set => _personData = value;
         }
 
         internal Education Education
         {
-            get { return _education; }
-            set { _education = value; }
+            get => _education;
+            set => _education = value;
         }
 
         internal int Group
         {
-            get { return _group; }
-            set { _group = value; }
+            get => _group;
+            set
+            {
+                if (value <= 100 || value > 599)
+                    throw new Exception("Введена группа выходящая из диапазона от 100 до 599");
+                _group = value;
+            }
         }
 
         internal ArrayList Exams
         {
-            get { return _exams; }
-            set { _exams = value; }
+            get => _exams;
+            set => _exams = value;
+        }
+
+        internal ArrayList Tests
+        {
+            get => _tests;
+            set => _tests = value;
         }
 
         internal double Avg
         {
             get
             {
-                
                 double avg = 0;
                 foreach (Exam exam in Exams)
                 {
@@ -85,63 +89,85 @@ namespace LABA_2.ClassesAndInterfaces
                 else return false;
             }
         }
-        //
 
-
-
-        internal Student(Person personData, Education education, int group)
+        
+        internal Student() : this(new Person(),Education.None,102,new ArrayList(),new ArrayList()){}
+        internal Student(Person personData, Education education, int group, ArrayList exams, ArrayList tests)
         {
             PersonData = personData;
             Education = education;
             Group = group;
+            Exams = exams;
+            Tests = tests;
+            DateOfCreation = DateTime.Now;
         }
-        internal Student()
+
+        
+        public void AddExam(params Exam[] addedExams)
         {
-            PersonData = new Person();
-            Education = Education.None;
-            Group = -1;
-            //Exams = new Exam[1]{new Exam()};
-        }
-        //
-
-
-
-        public void AddExam(Exam[] addedExams)
-        {
-          
             for (int i = 0; i < addedExams.Length; i++)
             {
                 Exams.Add(addedExams[i]);
             }
         }
+
+        public void AddTest(params Test[] addedTests)
+        {
+            for (int i = 0; i < addedTests.Length; i++)
+            {
+                Tests.Add(addedTests[i]);
+            }
+        }
+        
+        public override object DeepCopy()
+        {
+            Student studCopy = new Student(PersonData, Education, Group, Exams, Tests);
+            return studCopy;
+        }
+        
+        public override string ToShortString()
+        {
+            string shortInformationAboutStudent = $"{PersonData.ToString()} | Образование: {Education.ToString()} | Группа: {Group}";
+            return shortInformationAboutStudent;
+        }
         
         public override string ToString()
         {
             string informationAboutStudent = $"{PersonData.ToString()} | Образование: {Education.ToString()} | Группа: {Group} | Средняя оценка: {Avg}";
-            Console.WriteLine(informationAboutStudent);
-            Console.WriteLine("Список экзаменов: ");
+            informationAboutStudent += "\nСписок экзаменов: ";
             foreach (Exam exam in Exams)
             {
-                exam.ToString();
+                informationAboutStudent += "\n" + exam.ToString();
             }
-            
-            Console.WriteLine();
             return informationAboutStudent;
         }
 
-        public virtual string ToShortString()
+        public override bool Equals(object obj)
         {
-            string shortInformationAboutStudent = $"{PersonData.ToString()} | Образование: {Education.ToString()} | Группа: {Group}";
-            
-            Console.WriteLine(shortInformationAboutStudent+"\n");
-            return shortInformationAboutStudent;
+            if (obj is Person person)
+            {
+                return person == this;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return PersonData.GetHashCode() + Education.GetHashCode() + Group.GetHashCode() + Exams.GetHashCode() +
+                   Tests.GetHashCode();
+        }
+
+        public static bool operator ==(Student stud1, Student stud2)
+        {
+            return stud1.PersonData == stud2.PersonData && stud1.Education == stud2.Education &&
+                   stud1.Group == stud2.Group && stud1.Exams == stud2.Exams && stud1.Tests == stud2.Tests;
         }
         
-        public object DeepCopy()
+        public static bool operator !=(Student stud1, Student stud2)
         {
-            Student studCopy = new Student(PersonData, Education, Group);
-            studCopy.Date = DateTime.Today;
-            return studCopy;
+            return stud1.PersonData != stud2.PersonData && stud1.Education != stud2.Education &&
+                   stud1.Group != stud2.Group && stud1.Exams != stud2.Exams && stud1.Tests != stud2.Tests;
         }
     }
 }

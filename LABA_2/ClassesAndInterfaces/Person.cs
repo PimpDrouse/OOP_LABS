@@ -58,35 +58,16 @@ namespace LABA_2.ClassesAndInterfaces
         }
         
         
-        public static bool operator ==(Person p1, Person p2)
+        public virtual object DeepCopy()
         {
-            if (p1.FirstName == p2.FirstName &&
-                p1.LastName == p2.LastName &&
-                p1.DateOfBirth == p2.DateOfBirth) return true;
-            else return false;
+            Person persCopy = new Person(FirstName, LastName, DateOfBirth.Year, DateOfBirth.Month, DateOfBirth.Day);
+            return persCopy;
         }
         
-        public static bool operator !=(Person p1, Person p2)
+        public virtual string ToShortString()
         {
-            if (p1.FirstName == p2.FirstName &&
-                p1.LastName == p2.LastName &&
-                p1.DateOfBirth == p2.DateOfBirth) return false;
-            else return true;
-        }
-        
-        public override bool Equals(object obj)
-        {
-            if (obj is Person)
-            {
-                if (obj as Person == this) return true;
-                else return false;
-            }
-            else return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return FirstName.GetHashCode() + LastName.GetHashCode() + DateOfBirth.GetHashCode();
+            string shortInformationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName}";
+            return shortInformationAboutClass;
         }
 
         public override string ToString()
@@ -94,17 +75,30 @@ namespace LABA_2.ClassesAndInterfaces
             string informationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName} | Дата рождения: {DateOfBirth.ToShortDateString()}";
             return informationAboutClass;
         }
-
-        public virtual string ToShortString()
+        
+        public override bool Equals(object obj)
         {
-            string shortInformationAboutClass = $"Имя: {FirstName} | Фамилия: {LastName}";
-            return shortInformationAboutClass;
+            if (obj is Person person)
+            {
+                return person == this;
+            }
+
+            return false;
         }
 
-        public virtual object DeepCopy()
+        public override int GetHashCode()
         {
-            Person persCopy = new Person(FirstName, LastName, DateOfBirth.Year, DateOfBirth.Month, DateOfBirth.Day);
-            return persCopy;
+            return FirstName.GetHashCode() + LastName.GetHashCode() + DateOfBirth.GetHashCode();
+        }
+        
+        public static bool operator ==(Person p1, Person p2)
+        {
+            return p1.FirstName == p2.FirstName && p1.LastName == p2.LastName && p1.DateOfBirth == p2.DateOfBirth;
+        }
+        
+        public static bool operator !=(Person p1, Person p2)
+        {
+            return p1.FirstName != p2.FirstName && p1.LastName != p2.LastName && p1.DateOfBirth != p2.DateOfBirth;
         }
     }
 }
