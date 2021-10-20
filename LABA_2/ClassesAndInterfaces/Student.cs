@@ -8,8 +8,8 @@
     *Свойство типа ArrayList с get и set
     *Метод void AddExam для добавления элементов
     *В свойстве Group оперделить set выкидывающий исключение при введенном значении от 100 до 500
-    *TODO Определить итератор для перебора всех элементов из списка зачетов и экзаменов
-    *TODO Определить итератор для последовательного перебора экзаменов с оценкой больше заданного значения
+    *Определить итератор для перебора всех элементов из списка зачетов и экзаменов 
+    *Определить итератор для последовательного перебора экзаменов с оценкой больше заданного значения
     *Переопределить Equals
     *Определить операции == и !=
     *Переопределить GetHashCode
@@ -118,10 +118,44 @@ namespace LABA_2.ClassesAndInterfaces
                 Tests.Add(addedTests[i]);
             }
         }
+
+        public IEnumerable GetExamsAndTests()
+        {
+            for (int i = 0; i < Exams.Count; i++)
+            {
+                yield return Exams[i];
+            }
+            
+            for (int i = 0; i < Tests.Count; i++)
+            {
+                yield return Tests[i];
+            }
+        }
+        
+        public IEnumerable GetExamsMore(int _mark)
+        {
+            for (int i = 0; i < Exams.Count; i++)
+            {
+                Exam _exam = Exams[i] as Exam;
+                if (_exam.Mark > _mark) yield return Exams[i];
+            }
+        }
         
         public override object DeepCopy()
         {
-            Student studCopy = new Student(PersonData, Education, Group, Exams, Tests);
+            ArrayList copyExams = new ArrayList();                          //Выглядит как костыль
+            foreach (Exam exam in Exams)
+            {
+                copyExams.Add(exam.DeepCopy());
+            }
+            
+            ArrayList copyTests = new ArrayList();
+            foreach (Test test in Tests)
+            {
+                copyTests.Add(test.DeepCopy());
+            }
+            
+            Student studCopy = new Student((Person)PersonData.DeepCopy(), Education, Group, copyExams, copyTests);
             return studCopy;
         }
         
@@ -134,40 +168,44 @@ namespace LABA_2.ClassesAndInterfaces
         public override string ToString()
         {
             string informationAboutStudent = $"{PersonData.ToString()} | Образование: {Education.ToString()} | Группа: {Group} | Средняя оценка: {Avg}";
+            
             informationAboutStudent += "\nСписок экзаменов: ";
             foreach (Exam exam in Exams)
             {
                 informationAboutStudent += "\n" + exam.ToString();
             }
+            
+            informationAboutStudent += "\nСписок зачетов: ";
+            foreach (Test test in Tests)
+            {
+                informationAboutStudent += "\n" + test.ToString();
+            }
+            
             return informationAboutStudent;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is Person person)
-            {
-                return person == this;
-            }
-
-            return false;
+            return this.PersonData == ((Student)obj).PersonData && 
+                   this.Education == ((Student)obj).Education &&
+                   this.Group == ((Student)obj).Group && 
+                   this.Exams == ((Student)obj).Exams && 
+                   this.Tests == ((Student)obj).Tests;
         }
 
         public override int GetHashCode()
         {
-            return PersonData.GetHashCode() + Education.GetHashCode() + Group.GetHashCode() + Exams.GetHashCode() +
-                   Tests.GetHashCode();
+            return PersonData.GetHashCode() + Education.GetHashCode() + Group.GetHashCode();
         }
 
         public static bool operator ==(Student stud1, Student stud2)
         {
-            return stud1.PersonData == stud2.PersonData && stud1.Education == stud2.Education &&
-                   stud1.Group == stud2.Group && stud1.Exams == stud2.Exams && stud1.Tests == stud2.Tests;
+            return ReferenceEquals(stud1, stud2);
         }
         
         public static bool operator !=(Student stud1, Student stud2)
         {
-            return stud1.PersonData != stud2.PersonData && stud1.Education != stud2.Education &&
-                   stud1.Group != stud2.Group && stud1.Exams != stud2.Exams && stud1.Tests != stud2.Tests;
+            return ReferenceEquals(stud1, stud2);
         }
     }
 }

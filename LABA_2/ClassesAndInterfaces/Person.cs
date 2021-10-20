@@ -78,12 +78,9 @@ namespace LABA_2.ClassesAndInterfaces
         
         public override bool Equals(object obj)
         {
-            if (obj is Person person)
-            {
-                return person == this;
-            }
-
-            return false;
+            return this.FirstName == ((Person)obj).FirstName &&
+                   this.LastName == ((Person)obj).LastName && 
+                   this.DateOfBirth == ((Person)obj).DateOfBirth;
         }
 
         public override int GetHashCode()
@@ -93,12 +90,12 @@ namespace LABA_2.ClassesAndInterfaces
         
         public static bool operator ==(Person p1, Person p2)
         {
-            return p1.FirstName == p2.FirstName && p1.LastName == p2.LastName && p1.DateOfBirth == p2.DateOfBirth;
+            return ReferenceEquals(p1,p2);
         }
         
         public static bool operator !=(Person p1, Person p2)
         {
-            return p1.FirstName != p2.FirstName && p1.LastName != p2.LastName && p1.DateOfBirth != p2.DateOfBirth;
+            return !ReferenceEquals(p1,p2);
         }
     }
 }
