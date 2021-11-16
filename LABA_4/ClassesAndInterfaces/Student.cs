@@ -1,34 +1,29 @@
-/*
-    *Закротое поле типа ArrayList хранящее Test
-    *Закротое поле типа ArrayList хранящее Exam
-    *Класс измененный под Person
-    *Конструктор с параметрами и без
-    *Свойство типа Person c get и set
-    *Свойство типа double Avg с get
-    *Свойство типа ArrayList с get и set
-    *Метод void AddExam для добавления элементов
-    *В свойстве Group оперделить set выкидывающий исключение при введенном значении от 100 до 500
-    *Определить итератор для перебора всех элементов из списка зачетов и экзаменов 
-    *Определить итератор для последовательного перебора экзаменов с оценкой больше заданного значения
-    *Переопределить Equals
-    *Определить операции == и !=
-    *Переопределить GetHashCode
-    *Реализация интерфейса IDateCopy
-    *Определить override object DeepCopy
-*/
+
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
-namespace LABA_2.ClassesAndInterfaces
+namespace LABA_4.ClassesAndInterfaces
 {
-    internal class Student : Person,IDateAndCopy
+    internal struct ID
+    {
+        private static int id = 0;
 
+        internal static int GetID()
+        {
+            id++;
+            return id;
+        } 
+    }   //Костыль для создания ID
+    
+    internal class Student : Person,IDateAndCopy
     {
         private Person _personData;
         private Education _education;
         private int _group;
-        private ArrayList _tests;
-        private ArrayList _exams;
+        private List<Test> _tests;
+        private List<Exam> _exams;
+        internal readonly int SID;
 
         public DateTime DateOfCreation { get; set; }
 
@@ -55,13 +50,13 @@ namespace LABA_2.ClassesAndInterfaces
             }
         }
 
-        internal ArrayList Exams
+        internal List<Exam> Exams
         {
             get => _exams;
             set => _exams = value;
         }
 
-        internal ArrayList Tests
+        internal List<Test> Tests
         {
             get => _tests;
             set => _tests = value;
@@ -91,8 +86,8 @@ namespace LABA_2.ClassesAndInterfaces
         }
 
         
-        internal Student() : this(new Person(),Education.None,102,new ArrayList(),new ArrayList()){}
-        internal Student(Person personData, Education education, int group, ArrayList exams, ArrayList tests)
+        internal Student() : this(new Person(),Education.None,102,new List<Exam>(),new List<Test>()){}
+        internal Student(Person personData, Education education, int group, List<Exam> exams, List<Test> tests)
         {
             PersonData = personData;
             Education = education;
@@ -100,6 +95,7 @@ namespace LABA_2.ClassesAndInterfaces
             Exams = exams;
             Tests = tests;
             DateOfCreation = DateTime.Now;
+            SID = ID.GetID();
         }
 
         
@@ -117,6 +113,21 @@ namespace LABA_2.ClassesAndInterfaces
             {
                 Tests.Add(addedTests[i]);
             }
+        }
+
+        public void SortBySubject()
+        {
+            Exams.Sort();
+        }
+        
+        public void SortByDateOfPass()
+        {
+            Exams.Sort(new HelperExam().Compare);
+        }
+        
+        public void SortByMark()
+        {
+            Exams.Sort(new Exam().Compare);
         }
 
         public IEnumerable GetExamsAndTests()
@@ -143,16 +154,16 @@ namespace LABA_2.ClassesAndInterfaces
         
         public override object DeepCopy()
         {
-            ArrayList copyExams = new ArrayList();                          //Выглядит как костыль
-            foreach (Exam exam in Exams)
+            List<Exam> copyExams = new List<Exam>();                          //Выглядит как костыль
+            foreach (Exam exam in Exams)    
             {
-                copyExams.Add(exam.DeepCopy());
+                copyExams.Add((Exam)exam.DeepCopy());
             }
             
-            ArrayList copyTests = new ArrayList();
+            List<Test> copyTests = new List<Test>();
             foreach (Test test in Tests)
             {
-                copyTests.Add(test.DeepCopy());
+                copyTests.Add((Test)test.DeepCopy());
             }
             
             Student studCopy = new Student((Person)PersonData.DeepCopy(), Education, Group, copyExams, copyTests);

@@ -1,14 +1,6 @@
-/*
-    *Переопределить Equals
-    *Определить операции == и !=
-    *Переопределить GetHashCode
-    *Реализация интерфейса IDateCopy
-    *Определить virtual object DeepCopy
-*/
-
 using System;
 
-namespace LABA_2.ClassesAndInterfaces
+namespace LABA_3.ClassesAndInterfaces
 {
     internal class Person : IDateAndCopy
     {

@@ -7,9 +7,8 @@
 */
 
 using System;
-using System.Runtime.CompilerServices;
 
-namespace LABA_2.ClassesAndInterfaces
+namespace LABA_4.ClassesAndInterfaces
 {
     internal class Person : IDateAndCopy
     {

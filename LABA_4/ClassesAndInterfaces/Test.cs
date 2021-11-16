@@ -8,7 +8,7 @@
 
 using System;
 
-namespace LABA_2.ClassesAndInterfaces
+namespace LABA_4.ClassesAndInterfaces
 {
     internal class Test : IDateAndCopy
     {

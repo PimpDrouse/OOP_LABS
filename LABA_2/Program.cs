@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Threading;
 using LABA_2.ClassesAndInterfaces;
 
 namespace LABA_2

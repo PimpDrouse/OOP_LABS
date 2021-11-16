@@ -1,6 +1,6 @@
 using System;
 
-namespace LABA_2.ClassesAndInterfaces
+namespace LABA_3.ClassesAndInterfaces
 {
     internal interface IDateAndCopy
     {

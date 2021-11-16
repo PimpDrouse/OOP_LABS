@@ -1,4 +1,4 @@
-namespace LABA_2.ClassesAndInterfaces
+namespace LABA_4.ClassesAndInterfaces
 {
     public enum Education
     {

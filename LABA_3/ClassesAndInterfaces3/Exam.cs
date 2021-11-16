@@ -1,11 +1,7 @@
-/*
-    * Реализация интерфейса IComparable для сравнения по назвнию предмета
-    * Реализация интерфейс ICoparer для сравнения по оценке 
-*/
 using System;
 using System.Collections.Generic;
 
-namespace LABA_2.ClassesAndInterfaces
+namespace LABA_3.ClassesAndInterfaces
 {
     internal class Exam : IDateAndCopy, IComparable, IComparer<Exam>
     {
@@ -33,14 +29,11 @@ namespace LABA_2.ClassesAndInterfaces
 
         public int CompareTo(object obj)
         {
-            if (obj == null) throw new Exception("Сравнения не возможно, так как аргумент пуст");
-            return this.Subjects.CompareTo(((Exam) obj).Subjects);
+            return String.Compare(this.Subjects, ((Exam) obj).Subjects, StringComparison.Ordinal);
         }
 
         public int Compare(Exam ex1, Exam ex2)
         {
-            if (ex1 == null || ex2 == null) throw new Exception("Сравнения не возможно, так как один из аргумент пуст");
-
             if (ex1.Mark > ex2.Mark) return 1;
             if (ex1.Mark == ex2.Mark) return 0;
             return -1;
